@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suppression de compte — Application de suivi sportif</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f4f6fb;
+      color: #1a1a2e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      max-width: 520px;
+      width: 100%;
+      padding: 40px 40px 36px;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: #fde8e8;
+      border-radius: 14px;
+      margin-bottom: 24px;
+    }
+
+    .icon svg { width: 28px; height: 28px; }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .warning-box {
+      background: #fff8e1;
+      border-left: 4px solid #f59e0b;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 28px;
+      font-size: 0.88rem;
+      color: #78540a;
+      line-height: 1.55;
+    }
+
+    .warning-box strong { display: block; margin-bottom: 6px; font-size: 0.9rem; }
+
+    ul.data-list {
+      margin: 8px 0 0 16px;
+      list-style: disc;
+    }
+
+    ul.data-list li { margin-bottom: 3px; }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 6px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      color: #1a1a2e;
+      background: #fafafa;
+      transition: border-color 0.2s;
+      outline: none;
+      margin-bottom: 18px;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #1a56a0;
+      background: #fff;
+    }
+
+    textarea { resize: vertical; min-height: 90px; }
+
+    .checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      margin-bottom: 0;
+      accent-color: #c0392b;
+    }
+
+    .checkbox-row span {
+      font-size: 0.88rem;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      background: #c0392b;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      font-family: inherit;
+    }
+
+    .btn:hover { background: #a93226; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { background: #ccc; cursor: not-allowed; }
+
+    .alternative {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    .alternative a {
+      color: #1a56a0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .alternative a:hover { text-decoration: underline; }
+
+    .success {
+      display: none;
+      text-align: center;
+      padding: 24px 0 8px;
+    }
+
+    .success .check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: #d1fae5;
+      border-radius: 50%;
+      margin: 0 auto 16px;
+    }
+
+    .success h2 { font-size: 1.2rem; margin-bottom: 10px; color: #065f46; }
+    .success p { font-size: 0.92rem; color: #555; line-height: 1.6; }
+
+    footer {
+      margin-top: 28px;
+      font-size: 0.78rem;
+      color: #aaa;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- Formulaire -->
+    <div id="form-view">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+        </svg>
+      </div>
+
+      <h1>Supprimer mon compte</h1>
+      <p class="subtitle">
+        Remplissez ce formulaire pour demander la suppression définitive de votre compte et de toutes vos données associées.
+        Votre demande sera traitée dans un délai de <strong>7 jours ouvrés</strong>.
+      </p>
+
+      <div class="warning-box">
+        <strong>⚠️ Cette action est irréversible</strong>
+        Les données suivantes seront définitivement supprimées :
+        <ul class="data-list">
+          <li>Votre compte et informations personnelles</li>
+          <li>L'historique de vos entraînements et séances</li>
+          <li>Vos plans nutritionnels et données de suivi</li>
+          <li>Vos photos de séance et photos corporelles</li>
+          <li>Vos messages et échanges avec votre coach</li>
+          <li>Vos rendez-vous et formulaires de suivi</li>
+        </ul>
+      </div>
+
+      <form id="delete-form" novalidate>
+        <label for="login">Identifiant (login) *</label>
+        <input type="text" id="login" name="login" placeholder="Votre identifiant de connexion" required />
+
+        <label for="email">Adresse e-mail associée au compte *</label>
+        <input type="email" id="email" name="email" placeholder="exemple@email.com" required />
+
+        <label for="reason">Motif (optionnel)</label>
+        <textarea id="reason" name="reason" placeholder="Dites-nous pourquoi vous souhaitez supprimer votre compte…"></textarea>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="confirm" name="confirm" required />
+          <span>Je comprends que cette suppression est <strong>définitive et irréversible</strong> et que toutes mes données seront effacées.</span>
+        </div>
+
+        <button type="submit" class="btn" id="submit-btn" disabled>Envoyer la demande de suppression</button>
+      </form>
+
+      <p class="alternative">
+        Vous pouvez aussi supprimer votre compte directement depuis l'application :<br/>
+        <strong>Paramètres → Mon compte → Supprimer mon compte</strong><br/><br/>
+        Ou nous contacter par e-mail : <a href="mailto:pubispam@gmail.com">pubispam@gmail.com</a>
+      </p>
+    </div>
+
+    <!-- Confirmation -->
+    <div class="success" id="success-view">
+      <div class="check">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#065f46" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h2>Demande envoyée</h2>
+      <p>
+        Votre demande de suppression a bien été transmise.<br/>
+        Elle sera traitée dans un délai de <strong>7 jours ouvrés</strong>.<br/><br/>
+        Vous recevrez une confirmation à l'adresse e-mail indiquée.
+      </p>
+    </div>
+
+  </div>
+
+  <footer>Application de suivi sportif et de coaching &nbsp;·&nbsp; <a href="mailto:pubispam@gmail.com" style="color:#aaa">pubispam@gmail.com</a></footer>
+
+  <script>
+    const form     = document.getElementById('delete-form');
+    const checkbox = document.getElementById('confirm');
+    const submitBtn = document.getElementById('submit-btn');
+    const loginInput = document.getElementById('login');
+    const emailInput = document.getElementById('email');
+
+    function updateBtn() {
+      submitBtn.disabled = !checkbox.checked || !loginInput.value.trim() || !emailInput.value.trim();
+    }
+
+    checkbox.addEventListener('change', updateBtn);
+    loginInput.addEventListener('input', updateBtn);
+    emailInput.addEventListener('input', updateBtn);
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const login  = loginInput.value.trim();
+      const email  = emailInput.value.trim();
+      const reason = document.getElementById('reason').value.trim();
+
+      const subject = encodeURIComponent('Demande de suppression de compte');
+      const body = encodeURIComponent(
+        'Bonjour,\n\n' +
+        'Je souhaite supprimer mon compte et toutes mes données associées.\n\n' +
+        'Identifiant : ' + login + '\n' +
+        'Adresse e-mail : ' + email + '\n' +
+        (reason ? 'Motif : ' + reason + '\n' : '') +
+        '\nJe confirme avoir pris connaissance du caractère irréversible de cette suppression.\n\n' +
+        'Cordialement'
+      );
+
+      window.location.href = 'mailto:pubispam@gmail.com?subject=' + subject + '&body=' + body;
+
+      setTimeout(() => {
+        document.getElementById('form-view').style.display = 'none';
+        const sv = document.getElementById('success-view');
+        sv.style.display = 'block';
+      }, 500);
+    });
+  </script>
+
+</body>
+</html>
